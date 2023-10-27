@@ -144,13 +144,6 @@ namespace KartGame.KartSystems
         [Range(-1.0f, 1.0f)]
         public float WheelsPositionVerticalOffset = 0.0f;
 
-        [Header("Physical Wheels")]
-        [Tooltip("The physical representations of the Kart's wheels.")]
-        public WheelCollider FrontLeftWheel;
-        public WheelCollider FrontRightWheel;
-        public WheelCollider RearLeftWheel;
-        public WheelCollider RearRightWheel;
-
         [Tooltip("Which layers the wheels will detect.")]
         public LayerMask GroundLayers = Physics.DefaultRaycastLayers;
 
@@ -236,24 +229,24 @@ namespace KartGame.KartSystems
             Rigidbody = GetComponent<Rigidbody>();
             m_Inputs = GetComponents<IInput>();
 
-            UpdateSuspensionParams(FrontLeftWheel);
-            UpdateSuspensionParams(FrontRightWheel);
-            UpdateSuspensionParams(RearLeftWheel);
-            UpdateSuspensionParams(RearRightWheel);
+            // UpdateSuspensionParams(FrontLeftWheel);
+            // UpdateSuspensionParams(FrontRightWheel);
+            // UpdateSuspensionParams(RearLeftWheel);
+            // UpdateSuspensionParams(RearRightWheel);
 
             m_CurrentGrip = baseStats.Grip;
 
-            if (DriftSparkVFX != null)
-            {
-                AddSparkToWheel(RearLeftWheel, -DriftSparkHorizontalOffset, -DriftSparkRotation);
-                AddSparkToWheel(RearRightWheel, DriftSparkHorizontalOffset, DriftSparkRotation);
-            }
+            // if (DriftSparkVFX != null)
+            // {
+            //     AddSparkToWheel(RearLeftWheel, -DriftSparkHorizontalOffset, -DriftSparkRotation);
+            //     AddSparkToWheel(RearRightWheel, DriftSparkHorizontalOffset, DriftSparkRotation);
+            // }
 
-            if (DriftTrailPrefab != null)
-            {
-                AddTrailToWheel(RearLeftWheel);
-                AddTrailToWheel(RearRightWheel);
-            }
+            // if (DriftTrailPrefab != null)
+            // {
+            //     AddTrailToWheel(RearLeftWheel);
+            //     AddTrailToWheel(RearRightWheel);
+            // }
 
             if (NozzleVFX != null)
             {
@@ -282,10 +275,10 @@ namespace KartGame.KartSystems
 
         void FixedUpdate()
         {
-            UpdateSuspensionParams(FrontLeftWheel);
-            UpdateSuspensionParams(FrontRightWheel);
-            UpdateSuspensionParams(RearLeftWheel);
-            UpdateSuspensionParams(RearRightWheel);
+            // UpdateSuspensionParams(FrontLeftWheel);
+            // UpdateSuspensionParams(FrontRightWheel);
+            // UpdateSuspensionParams(RearLeftWheel);
+            // UpdateSuspensionParams(RearRightWheel);
 
             GatherInputs();
 
@@ -296,14 +289,14 @@ namespace KartGame.KartSystems
             Rigidbody.centerOfMass = transform.InverseTransformPoint(CenterOfMass.position);
 
             int groundedCount = 0;
-            if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
-                groundedCount++;
-            if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
-                groundedCount++;
-            if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
-                groundedCount++;
+            // if (FrontLeftWheel.isGrounded && FrontLeftWheel.GetGroundHit(out WheelHit hit))
+            //     groundedCount++;
+            // if (FrontRightWheel.isGrounded && FrontRightWheel.GetGroundHit(out hit))
+            //     groundedCount++;
+            // if (RearLeftWheel.isGrounded && RearLeftWheel.GetGroundHit(out hit))
+            //     groundedCount++;
+            // if (RearRightWheel.isGrounded && RearRightWheel.GetGroundHit(out hit))
+            //     groundedCount++;
 
             // calculate how grounded and airborne we are
             GroundPercent = (float) groundedCount / 4.0f;
