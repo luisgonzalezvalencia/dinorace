@@ -5,7 +5,7 @@ using UnityEngine;
 public class MovimientoDinosaurio : MonoBehaviour
 {
     public float velocidadMovimiento = 5f; // Velocidad de movimiento del dinosaurio
-    public float fuerzaSalto = 300f; // Fuerza del salto
+    private float fuerzaSalto = 300f; // Fuerza del salto
     public float velocidadGiro = 100f; // Velocidad de giro
 
     private Rigidbody rb;
@@ -37,14 +37,18 @@ public class MovimientoDinosaurio : MonoBehaviour
 
 
         // Salto
-        if (Input.GetButtonDown("Jump") && Mathf.Abs(rb.velocity.y) < 0.01f)
+        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
         {
+            // Vector3 posS = new Vector3(0f, fuerzaSalto * Time.deltaTime, 0f);
+            // transform.Translate(posS, Space.Self);
             animador.SetBool("Jump", true);
-            rb.AddForce(Vector3.up * fuerzaSalto);
+            // rb.AddForce(Vector3.up * fuerzaSalto);
+            Invoke("ChangeJumpFalse", 0.5f);
         }
+         
+    }
 
-        if(Input.GetButtonUp("Jump")){
-            animador.SetBool("Jump", false);
-        }
+    private void ChangeJumpFalse(){
+        animador.SetBool("Jump", false);
     }
 }
