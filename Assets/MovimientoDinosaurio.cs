@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class MovimientoDinosaurio : MonoBehaviour
+public class MovimientoDinosaurio : NetworkBehaviour
 {
     public float velocidadMovimiento = 5f; // Velocidad de movimiento del dinosaurio
     public float fuerzaSalto = 500f; // Fuerza del salto
@@ -22,30 +23,31 @@ public class MovimientoDinosaurio : MonoBehaviour
 
    private void Update()
     {
-        animador.SetBool("Walk", Input.GetAxis("Vertical") != 0); 
+        if(this.isLocalPlayer){
+            animador.SetBool("Walk", Input.GetAxis("Vertical") != 0); 
 
-        // Movimiento vertical (acelerar y desacelerar)
-        float movimientoVertical = Input.GetAxis("Vertical");
+            // Movimiento vertical (acelerar y desacelerar)
+            float movimientoVertical = Input.GetAxis("Vertical");
 
-        Vector3 pos = new Vector3(0f, 0f, movimientoVertical*velocidadMovimiento * Time.deltaTime);
+            Vector3 pos = new Vector3(0f, 0f, movimientoVertical*velocidadMovimiento * Time.deltaTime);
 
-        transform.Translate(pos, Space.Self);
+            transform.Translate(pos, Space.Self);
 
-        // Girar
+            // Girar
 
-        transform.Rotate(Vector3.up, Input.GetAxis("Horizontal") * velocidadGiro * Time.deltaTime);
+            transform.Rotate(Vector3.up, Input.GetAxis("Horizontal") * velocidadGiro * Time.deltaTime);
 
 
-        // Salto
-        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
-        {
-            // Vector3 posS = new Vector3(0f, fuerzaSalto * Time.deltaTime, 0f);
-            // transform.Translate(posS, Space.Self);
-            animador.SetBool("Jump", true);
-            rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
-            Invoke("ChangeJumpFalse", 0.5f);
+            // Salto
+            if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(rb.velocity.y) < 0.01f)
+            {
+                // Vector3 posS = new Vector3(0f, fuerzaSalto * Time.deltaTime, 0f);
+                // transform.Translate(posS, Space.Self);
+                animador.SetBool("Jump", true);
+                rb.AddForce(Vector3.up * fuerzaSalto, ForceMode.Impulse);
+                Invoke("ChangeJumpFalse", 0.5f);
+            }
         }
-         
     }
 
     private void ChangeJumpFalse(){
