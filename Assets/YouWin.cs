@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 
 public class YouWin : NetworkBehaviour
@@ -48,6 +50,7 @@ public class YouWin : NetworkBehaviour
                     if (otherNetworkIdentity.netId == connection.identity.netId)
                     {
                         component.SetPlayerName("Ganaste Capo!");
+                         StartCoroutine(CountdownThenGoToFirstSceneRoutine());
                     }
                     else
                     {
@@ -60,6 +63,13 @@ public class YouWin : NetworkBehaviour
 
     }
 
+
+    IEnumerator CountdownThenGoToFirstSceneRoutine() {
+        yield return new WaitForSeconds(5f);
+        //TODO: destroy this gameobject
+        RpcLoadSceneInit();
+    }
+
     // [ClientRpc]
     // private void TargetRpcLoadSceneWin()
     // {
@@ -67,13 +77,9 @@ public class YouWin : NetworkBehaviour
     //     SceneManager.LoadScene("WinScene");
     // }
 
-    // [ClientRpc]
-    // private void RpcLoadSceneLose()
-    // {
-    //     // Carga la escena "Lose" en todos los clientes excepto en el que activó la escena
-    //     if (!isLocalPlayer && !isServer)
-    //     {
-    //         SceneManager.LoadScene("LoseScene");
-    //     }
-    // }
+    [ClientRpc]
+    private void RpcLoadSceneInit()
+    {
+        SceneManager.LoadScene("IntroMenu 1");
+    }
 }
