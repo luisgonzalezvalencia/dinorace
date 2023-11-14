@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Mirror;
 
-public class DisplayMessage : MonoBehaviour
+public class DisplayMessage : NetworkBehaviour
 {
     [Tooltip("The text that will be displayed")]
     [TextArea]

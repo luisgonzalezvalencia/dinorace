@@ -10,6 +10,8 @@ public class MovimientoDinosaurio : NetworkBehaviour
     public float velocidadGiro = 100f; // Velocidad de giro
     public bool jump = false;
 
+    public string NamePlayer;
+
     private Rigidbody rb;
 
     public Animator animador;
