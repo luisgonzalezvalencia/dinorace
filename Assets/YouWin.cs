@@ -7,19 +7,17 @@ public class YouWin : NetworkBehaviour
     private bool sceneActivated = false;
     public string playerWinName;
 
-    void Update()
-    {
-        if (sceneActivated)
-        {
-            Debug.Log("The winner is" + playerWinName);
-        }
-    }
+    // void Update()
+    // {
+    //     if (sceneActivated)
+    //     {
+    //         Debug.Log("The winner is" + playerWinName);
+    //     }
+    // }
 
     // Este método se llama cuando un objeto entra en el colisionador
     private void OnTriggerEnter(Collider other)
     {
-
-        Debug.Log("" + other.gameObject.name);
         // Verifica si este script se está ejecutando en el servidor y si es el jugador local
         if (!isServer)
             return;
@@ -35,13 +33,35 @@ public class YouWin : NetworkBehaviour
         // Marca la escena como activada para evitar que otros clientes la activen
         sceneActivated = true;
 
-        //TODO: obtener el nombre del jugador de SyncVars y asignarlo a this.playerWinName
-        
+        Debug.Log("" + otherNetworkIdentity.netId);
+
+        var connections = NetworkServer.connections;
+
+        foreach (var connection in connections.Values)
+        {
+            if (connection.identity != null)
+            {
+                // Accede al componente SyncVars y actualiza el nombre del jugador
+                var component = connection.identity.GetComponent<SyncVars>();
+                if (component != null)
+                {
+                    if (otherNetworkIdentity.netId == connection.identity.netId)
+                    {
+                        component.SetPlayerName("Ganaste Capo!");
+                    }
+                    else
+                    {
+                        component.SetPlayerName("Perdiste!");
+                    }
+
+                }
+            }
+        }
 
     }
 
     // [ClientRpc]
-    // private void RpcLoadSceneWin()
+    // private void TargetRpcLoadSceneWin()
     // {
     //     // Carga la escena "Win" en todos los clientes
     //     SceneManager.LoadScene("WinScene");

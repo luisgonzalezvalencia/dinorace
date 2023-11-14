@@ -41,9 +41,10 @@ public class MyNetworkManager : NetworkRoomManager
     {
         base.OnServerSceneChanged(sceneName);
 
+        Debug.Log("Scene changed");
         // Obtén una lista de las conexiones de clientes
         var connections = NetworkServer.connections;
-
+        var i = 1;
         foreach (var connection in connections.Values)
         {
             if (connection.identity != null)
@@ -52,8 +53,9 @@ public class MyNetworkManager : NetworkRoomManager
                 var component = connection.identity.GetComponent<SyncVars>();
                 if (component != null)
                 {
-                    component.SetPlayerName("Dinosaurito");
+                    component.SetPlayerName("Dinosaurito " + i);
                     Debug.Log("Nombre Dinosaurito actualizado para " + connection.identity.name);
+                    i += 1;
                 }
             }
         }
